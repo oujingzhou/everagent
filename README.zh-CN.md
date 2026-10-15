@@ -4,7 +4,7 @@
 
 EverAgent 是一个面向长时间 AI 任务的可持久化、可恢复 Agent Harness。
 
-它将编码 Agent、持久化执行运行时、终端界面和 Web 任务控制台组合在一起。对话、模型轮次、工具调用、排队输入、checkpoint 和 Agent 状态都会先提交到 SQLite，再通过 UI 展示。
+EverAgent 将 Agent 的执行生命周期纳入持久化 Harness：对话、模型轮次、工具调用、排队输入、checkpoint 和 Agent 状态都会先提交到 SQLite，再由 TUI 和 Web 任务控制台呈现。
 
 ## 它主要解决什么问题？
 

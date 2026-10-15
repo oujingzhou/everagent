@@ -4,7 +4,7 @@
 
 EverAgent is a durable, recoverable Agent Harness for long-running AI work.
 
-It combines a coding Agent, a persistent execution runtime, a terminal interface, and a Web task console. Conversations, model turns, tool calls, queued input, checkpoints, and Agent state are committed to SQLite before they are presented through the UI.
+EverAgent puts the Agent execution lifecycle inside a durable Harness: conversations, model turns, tool calls, queued input, checkpoints, and Agent state are committed to SQLite first, then presented through the TUI and Web task console.
 
 ## What Problem Does It Solve?
 

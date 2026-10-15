@@ -32,7 +32,7 @@ import { PiSessionMirror } from "./pi-session-mirror.ts";
 import { readAllConversationEntries } from "./conversation-entries.ts";
 import { runModelSetup } from "./setup.ts";
 
-export const EVERAGENT_VERSION = "0.1.1";
+export const EVERAGENT_VERSION = "0.1.2";
 import {
 	daemonAlive,
 	defaultDaemonStateFile,

@@ -1,6 +1,6 @@
 {
 	"name": "everagent",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"type": "module",
 	"description": "Durable, recoverable agent harness for long-running AI tasks",
 	"main": "./dist/src/cli.js",
@@ -11,6 +11,7 @@
 	"files": [
 		"bin/",
 		"dist/",
+		"LICENSE",
 		"README.md",
 		"README.zh-CN.md"
 	],
@@ -35,7 +36,7 @@
 		"tui",
 		"llm"
 	],
-	"license": "UNLICENSED",
+	"license": "MIT",
 	"publishConfig": {
 		"access": "public"
 	},

@@ -872,8 +872,31 @@ pageSizeNode.addEventListener("change", () => {
   tasksNode.scrollTop = 0;
   if (state) renderTasks(state);
 });
-refresh().catch((error) => { statusNode.textContent = error.message; });
-setInterval(() => refresh().catch(() => {}), 1000);
+let refreshInFlight = false;
+let refreshTimer;
+function refreshDelay() {
+  if (document.hidden) return 15000;
+  if (!state || state.activeTaskCount > 0 || state.pendingSubmissionCount > 0) return 1000;
+  return 5000;
+}
+async function refreshAndSchedule() {
+  if (refreshInFlight) return;
+  refreshInFlight = true;
+  try {
+    await refresh();
+  } catch (error) {
+    statusNode.textContent = error instanceof Error ? error.message : "Could not refresh runtime state";
+  } finally {
+    refreshInFlight = false;
+    clearTimeout(refreshTimer);
+    refreshTimer = setTimeout(() => void refreshAndSchedule(), refreshDelay());
+  }
+}
+document.addEventListener("visibilitychange", () => {
+  clearTimeout(refreshTimer);
+  void refreshAndSchedule();
+});
+void refreshAndSchedule();
 </script>
 </body>
 </html>`;
@@ -951,8 +974,9 @@ export async function startWebServer(
 				return;
 			}
 			if (request.method === "GET" && (url.pathname === "/api/state" || url.pathname === "/api/session")) {
+				const includeMessages = url.pathname === "/api/session";
 				sendJson(response, 200, {
-					messages: await sessionMessages(conversation),
+					...(includeMessages ? { messages: await sessionMessages(conversation) } : {}),
 					...(await runtime.state()),
 					...(options.defaultConversationId === undefined
 						? {}

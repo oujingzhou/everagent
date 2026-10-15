@@ -35,12 +35,13 @@ try {
 	const invalidFiles = filePaths.filter((path) =>
 		!path.startsWith("bin/") &&
 		!path.startsWith("dist/") &&
+		path !== "LICENSE" &&
 		path !== "README.md" &&
 		path !== "README.zh-CN.md" &&
 		path !== "package.json"
 	);
 	if (invalidFiles.length > 0) throw new Error(`unexpected files in package: ${invalidFiles.join(", ")}`);
-	for (const required of ["README.md", "README.zh-CN.md", "package.json", "bin/everagent.mjs", "dist/src/cli.js"]) {
+	for (const required of ["LICENSE", "README.md", "README.zh-CN.md", "package.json", "bin/everagent.mjs", "dist/src/cli.js"]) {
 		if (!filePaths.includes(required)) throw new Error(`required package file is missing: ${required}`);
 	}
 

@@ -195,7 +195,6 @@ describe("everagent durable integration", () => {
 			expect(script).toBeDefined();
 			expect(() => new Function(script!)).not.toThrow();
 			const initial = await (await fetch(`${base}/api/state`)).json() as {
-				messages: unknown[];
 				tasks: unknown[];
 				submissions: unknown[];
 				conversationId: number;
@@ -204,7 +203,7 @@ describe("everagent durable integration", () => {
 				runs: unknown[];
 				defaultConversationId: number;
 			};
-			expect(initial.messages).toEqual([]);
+			expect(initial).not.toHaveProperty("messages");
 			expect(initial.tasks).toEqual([]);
 			expect(initial.activeTaskCount).toBe(0);
 			expect(initial.pendingSubmissionCount).toBe(0);
@@ -240,7 +239,6 @@ describe("everagent durable integration", () => {
 			const submission = await opened.harness.submission(admitted.submissionId as SubmissionId, BACKGROUND_CONTEXT);
 			expect((await submission?.wait(BACKGROUND_CONTEXT))?.status).toBe("done");
 			const state = await (await fetch(`${base}/api/state`)).json() as {
-				messages: unknown[];
 				tasks: Array<{
 					kind: string;
 					status: string;
@@ -258,10 +256,6 @@ describe("everagent durable integration", () => {
 					taskIds: number[];
 				}>;
 			};
-			expect(state.messages).toEqual([
-				{ role: "user", text: "hello web" },
-				{ role: "assistant", text: "web answer" },
-			]);
 			expect(state.activeTaskCount).toBe(0);
 			expect(state.pendingSubmissionCount).toBe(0);
 			expect(state.tasks).toEqual(expect.arrayContaining([
@@ -283,6 +277,13 @@ describe("everagent durable integration", () => {
 				}),
 			]));
 			expect(state.runs[0]?.taskIds.length).toBeGreaterThan(0);
+			const session = await (await fetch(`${base}/api/session`)).json() as {
+				messages: unknown[];
+			};
+			expect(session.messages).toEqual([
+				{ role: "user", text: "hello web" },
+				{ role: "assistant", text: "web answer" },
+			]);
 		} finally {
 			await new Promise<void>((resolve, reject) => server.close((error) => (error ? reject(error) : resolve())));
 			await opened.harness.close(BACKGROUND_CONTEXT);

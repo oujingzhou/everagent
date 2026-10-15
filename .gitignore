@@ -1,0 +1,39 @@
+node_modules/
+dist/
+coverage/
+
+# Local EverAgent state
+.everagent/
+sessions/
+everagent.sqlite
+everagent.sqlite-*
+*.sqlite
+*.sqlite-*
+*.db
+
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+.npmrc
+auth.json
+models-store.json
+daemon.json
+*.pem
+*.key
+*.p12
+
+# Build and runtime output
+*.tgz
+*.log
+*.pid
+*.tmp
+*.swp
+*.swo
+.cache/
+.vite/
+
+# Editors and operating systems
+.idea/
+.vscode/
+.DS_Store

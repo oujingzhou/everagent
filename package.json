@@ -1,0 +1,56 @@
+{
+	"name": "everagent",
+	"version": "0.1.1",
+	"type": "module",
+	"description": "Durable, recoverable agent harness for long-running AI tasks",
+	"main": "./dist/src/cli.js",
+	"types": "./dist/src/cli.d.ts",
+	"bin": {
+		"everagent": "bin/everagent.mjs"
+	},
+	"files": [
+		"bin/",
+		"dist/",
+		"README.md",
+		"README.zh-CN.md"
+	],
+	"scripts": {
+		"start": "node --experimental-strip-types src/cli.ts",
+		"build": "rm -rf dist && tsc",
+		"typecheck": "tsc --noEmit && tsc -p tsconfig.test.json",
+		"test": "vitest --run",
+		"test:package": "node scripts/package-smoke.mjs",
+		"check": "npm run typecheck && npm test && npm run build && npm run test:package",
+		"demo:durable": "node dist/demo/durable-recovery.js",
+		"demo:capabilities": "node dist/demo/durable-capabilities.js",
+		"prepublishOnly": "npm run check"
+	},
+	"keywords": [
+		"ai",
+		"agent",
+		"agent-harness",
+		"durable",
+		"crash-recovery",
+		"background-agent",
+		"tui",
+		"llm"
+	],
+	"license": "UNLICENSED",
+	"publishConfig": {
+		"access": "public"
+	},
+	"engines": {
+		"node": ">=22.19.0"
+	},
+	"dependencies": {
+		"@earendil-works/chord": "1.2.0",
+		"@earendil-works/pi-ai": "1.2.0",
+		"@earendil-works/pi-coding-agent": "1.2.0",
+		"@earendil-works/pi-durable": "1.2.0",
+		"@earendil-works/pi-tui": "1.2.0"
+	},
+	"devDependencies": {
+		"typescript": "7.0.2",
+		"vitest": "4.1.11"
+	}
+}
